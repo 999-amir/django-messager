@@ -32,5 +32,6 @@
         </ul>
     </li>
 </ul>
+<img src="diagram.png" alt="diagram image">
 
 # HTMX
