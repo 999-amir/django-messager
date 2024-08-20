@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="p-5 h-dvh">
+        <h1 class="text-center mb-5 mt-2"><span class="text-red-600">[ user: {{ user.username }} ]</span> / <span class="text-orange-600">[ group-name: {{ group_name }} ]</span> / <span class="text-red-600">[ online: 13 ]</span></h1>
+        <div class="overflow-y-scroll h-[80%] flex flex-col-reverse">
+        {% for chat in chats %}
+            <p id="socket-message-log" class="text-{{ chat.user.color }}-500 my-1">{{ chat.user.username }}] {{ chat.message }}</p>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="absolute bottom-11 right-0 w-full">
+        <form class="flex w-[80%] mx-auto" method="post">{% csrf_token %}
+            <input id="socket-message-input" placeholder="type ..." name="message" autofocus
+                   class="w-full placeholder-gray-500 px-4 rounded-md py-3 text-left border border-2 border-lime-800 text-{{ user.color }}-500">
+            <button id="socket-message-submit" type="submit"
+                    class="h-11 inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-300 ease-in-out text-white hover:bg-{{ user.color }}-950 focus:outline-none ml-2">
+                <span class="text-{{ user.color }}-500">Send</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                     class="h-6 w-6 ml-2 transform rotate-90 hidden sm:block text-{{ user.color }}-500">
+                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                </svg>
+            </button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,24 +1,36 @@
-<h1 style="color: greenyellow">django web-socket messager</h1>
-<h3 style="color: mediumpurple">the way of how to create messager-app using web-socket</h3>
+<h1>DJANGO + HTMX + WEBSOCKET</h1>
+<h5>this is the messager app with online chat in groups [ first project ]</h5>
 
-# base setup
+# DJANGO
+
+<p>django-project without any asynchronous task. here some detail about apps</p>
 <ul>
-    <li>create message app with template and render it</li>
-    <li style="color: orangered">test it</li>
-</ul>
-<ul>
-    <li>python -m pip install -U 'channels[daphne]'</li>
-    <li>add "dephne" to INSTALLED_APPS as "third party app"</li>
-    <li>create " core / <span style="color: chartreuse;">routing.py</span> "</li>
-    <li>in core/<span style="color: chartreuse"> settings.py</span> -> <span style="color: cyan">ASGI_APPLICATION = 'core.routing.application' </span>[ remove wsgi ]</li>
-    <li>create application with ProtocolTypeRouter</li>
-    <li style="color: orangered">test again</li>
+    <li>app - account
+        <ul>
+            <li>CostumeUser:
+                <p>- registration with name and password</p>
+                <p>- name is defined as username ( evaluated to be unique )</p>
+                <p>- signup and login is in one page ( view ) so there is no confirm-password</p>
+                <p>- each user have random color in chat (saved in db)</p>
+            </li>
+        </ul>
+    </li>
+    <br>
+    <li>app - message
+        <ul>
+            <li>Group:
+                <p>- each group contain their users with ManyToManyField</p>
+                <p>- after registration user will send to group page</p>
+                <p>- in group page user will see the groups that admin make permission for user</p>
+            </li>
+            <li>Message
+                <p>- after user select it group, user will send to message-page</p>
+                <p>- in message-page there is all previous messages that each user have their own color</p>
+                <p>- message-page will restrict user that have no permission for group or unauthenticated</p>
+                <p>- each message is unique by group and user</p>
+            </li>
+        </ul>
+    </li>
 </ul>
 
-# message-app
-<ul>
-    <li>create consumer</li>
-    <li>create routing</li>
-    <li>connect <span style="color: yellow"> app/consumer</span> -> <span style="color: yellow"> app/routing</span> -> <span style="color: chartreuse"> core/routing</span></li>
-    
-</ul>
+# HTMX

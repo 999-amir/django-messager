@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="w-full flex justify-center items-center h-dvh">
+        <div class="w-[50%] mx-auto flex justify-center">
+        {% if groups %}
+            {% for group in groups %}
+                <a class="mx-2 text-lime-600 hover:text-blue-600" href="{% url 'message:chat' group.name %}"><span class="text-red-600">[</span>{{ group.name }}<span class="text-red-600">]</span></a>
+            {% endfor %}
+        {% else %}
+            <h3 class="text-center text-lime-600">no activated groups</h3>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

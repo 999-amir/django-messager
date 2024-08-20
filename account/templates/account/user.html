@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="w-full flex justify-center items-center h-dvh">
+        <form class="w-[50%] mx-auto" method="post">{% csrf_token %}
+            <h1 class="text-lime-500 mb-[2rem] text-4xl text-center">[ welcome ]</h1>
+            <input id="socket-message-input" placeholder="name ..." name="username"
+                   class="w-full placeholder-gray-500 px-3 rounded-md py-3 text-left border border-2 border-lime-800 text-lime-500 my-1">
+            <input id="socket-message-input" placeholder="password ..." name="password" type="password"
+                   class="w-full placeholder-gray-500 px-3 rounded-md py-3 text-left border border-2 border-lime-800 text-lime-500 my-1">
+            <button class="w-full p-3 mt-3 bg-lime-500 hover:bg-lime-600 rounded-lg text-gray-950">submit</button>
+        </form>
+    </div>
+{% endblock %}
