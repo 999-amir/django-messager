@@ -47,12 +47,6 @@ class MessageView(View):
     def post(self, request, group_name):
         form = self.form_class(request.POST)
         if form.is_valid():
-            MessageModel.objects.create(user=request.user, group=get_object_or_404(GroupModel, name=group_name), message=form.cleaned_data['message'])
-        chats = MessageModel.objects.filter(group__name=group_name).order_by('-created')
-        context = {
-            'group_name': group_name,
-            'chats': chats,
-            'form': form
-        }
-        return render(request, 'message/message.html', context)
+            chat = MessageModel.objects.create(user=request.user, group=get_object_or_404(GroupModel, name=group_name), message=form.cleaned_data['message'])
+            return render(request, 'message/snippet/chat-message.html', {'chat': chat})
 

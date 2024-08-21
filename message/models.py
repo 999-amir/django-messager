@@ -22,3 +22,6 @@ class MessageModel(models.Model):
     def __str__(self):
         return f'{self.group} - {self.user}'
 
+    class Meta:
+        ordering = ['-created']
+
