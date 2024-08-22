@@ -34,7 +34,7 @@
 </ul>
 <img src="diagram.png" alt="diagram image">
 
-# HTMX
+# HTMX (example)
 <h5>road:</h5>
 <ul>
     <li>message.html -----request----> hx-post ---> MessageView / post -----context----> chat-message.html ---> DONE_1</li>
@@ -97,7 +97,7 @@ class MessageView(View):
             return render(request, 'message/htmx/chat-message.html', {'chat': chat})
 ```
 
-# hyperscript
+# HYPERSCRIPT (example)
 <h5>to reset form after htmx-request</h5>
 <ul>
     <li>at the first get script-cdn from their website</li>
@@ -107,3 +107,32 @@ class MessageView(View):
 ```html
     <form ... _="on htmx:afterRequest reset() me">...</form>
 ```
+
+# WEBSOCKET
+<h5>what is websocket</h5>
+<p>A WebSocket is a communication protocol that provides full-duplex communication channels over a single, long-lived connection between a client (like a web browser) and a server. Unlike the traditional HTTP request/response model, WebSocket allows for interactive communication between the client and the server with minimal overhead, making it ideal for applications that require real-time updates.</p>
+
+<img style="margin: 0 20%" src="https://www-uploads.scaleway.com/blog-websockets-bigger-4.webp" width="400">
+
+<h5>first setup</h5>
+<ul>
+    <li>install channels["daphne"]</li>
+    <li>add DNS of htmx-ws to html</li>
+    <li>added to INSTALLED_APPS</li>
+    <li>change from wsgi to asgi</li>
+    <li>link core/asgi.py to app/routing.py</li>
+    <li>link app/routing.py to app/consumer.py
+        <ul>
+            <li>consumer is similar with views.py with more features like connect, disconnect, receive</li>
+        </ul>
+    </li>
+</ul>
+
+<h5>how it work</h5>
+<ul>
+    <li>when user open the page we use [ connect-function ] to add user to the specific channel-layer</li>
+    <li>and also if user close the page we use [ disconnect-function ] to remove user from our specific channel-layer</li>
+    <li>if user send request to page, we will send it to [ receive-function ] using HTMX</li>
+    <li>after that we can get request-data to processing level and after that send response to the new html file to add or edit our previous page with HTMX using [ hx-swap-oob ]</li>
+</ul>
+
