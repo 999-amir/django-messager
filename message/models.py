@@ -5,6 +5,7 @@ from account.models import CostumeUser
 class GroupModel(models.Model):
     name = models.CharField(max_length=40, unique=True)
     user = models.ManyToManyField(CostumeUser, blank=True)
+    online_user = models.ManyToManyField(CostumeUser, blank=True, related_name='rel_online_user')
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 

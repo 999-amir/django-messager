@@ -35,12 +35,14 @@ class MessageView(View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, group_name):
-        chats = MessageModel.objects.filter(group__name=group_name)
+        group = get_object_or_404(GroupModel, name=group_name)
+        chats = MessageModel.objects.filter(group=group)
         form = self.form_class()
         context = {
             'group_name': group_name,
             'chats': chats,
-            'form': form
+            'form': form,
+            'online_user': group.online_user.count()
         }
         return render(request, 'message/message.html', context)
 
@@ -48,5 +50,8 @@ class MessageView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             chat = MessageModel.objects.create(user=request.user, group=get_object_or_404(GroupModel, name=group_name), message=form.cleaned_data['message'])
-            return render(request, 'message/snippet/chat-message.html', {'chat': chat})
-
+            context = {
+                'chat': chat,
+                'chats': MessageModel.objects.filter(group__name=group_name)
+            }
+            return render(request, 'message/htmx/chat-message.html', context)

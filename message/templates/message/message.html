@@ -2,18 +2,16 @@
 {% block main %}
     <div class="p-5 h-dvh">
         <h1 class="text-center mb-5 mt-2"><span class="text-red-600">[ user: {{ user.username }} ]</span> / <span
-                class="text-orange-600">[ group-name: {{ group_name }} ]</span> / <span class="text-red-600">[ online: 13 ]</span>
+                class="text-orange-600">[ group-name: {{ group_name }} ]</span> / <span id="online_user_number" class="text-red-600">[ online: {{ online_user }} ]</span> / <span id="htmx-chats-count" class="text-gray-700">[count: {{ chats.count }}]</span>
         </h1>
-        <div class="overflow-y-scroll h-[80%] flex flex-col-reverse">
+        <div class="overflow-y-scroll h-[80%] flex flex-col-reverse" id="chat-messages">
             {% for chat in chats %}
-                <p id="htmx-chat"
-                   class="text-{{ chat.user.color }}-500 my-1">{{ chat.user.username }}] {{ chat.message }}</p>
+                <p class="text-{{ chat.user.color }}-500 my-1">{{ chat.user.username }}] {{ chat.message }}</p>
             {% endfor %}
         </div>
     </div>
     <div class="absolute bottom-11 right-0 w-full">
-        <form class="flex w-[80%] mx-auto" method="post" hx-post="{% url 'message:chat' group_name %}"
-              hx-target="#htmx-chat" hx-swap="beforebegin">{% csrf_token %}
+        <form class="flex w-[80%] mx-auto" hx-ext="ws" ws-connect="/ws/message/chat/{{ group_name }}" ws-send _="on htmx:wsAfterSend reset() me">{% csrf_token %}
             <input placeholder="type ..." name="message" autofocus
                    class="w-full placeholder-gray-500 px-4 rounded-md py-3 text-left border border-2 border-lime-800 text-{{ user.color }}-500">
             <button type="submit"

@@ -6,7 +6,7 @@ from .models import *
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('name', 'updated', 'created')
     ordering = ('-updated', '-created')
-    readonly_fields = ('updated', 'created')
+    readonly_fields = ('updated', 'created', 'online_user')
     search_fields = ('name', 'user')
     filter_horizontal = ('user',)
 

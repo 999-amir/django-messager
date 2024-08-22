@@ -52,6 +52,7 @@
                              |------ chat-message.html
 ```
 <br>
+<p>at the first get script-cdn from their website</p>
 <h5>message.html</h5>
 
 ```html
@@ -60,7 +61,8 @@
        class="text-{{ chat.user.color }}-500 my-1">{{ chat.user.username }}] {{ chat.message }}</p>
 {% endfor %}
 
-<form method="post" hx-post="{% url 'message:chat' group_name %}" hx-target="#htmx-chat" hx-swap="beforebegin">{% csrf_token %}
+<form method="post" hx-post="{% url 'message:chat' group_name %}" hx-target="#htmx-chat"
+      hx-swap="beforebegin">{% csrf_token %}
     <input name="message">
     <button type="submit">submit</button>
 </form>
@@ -78,16 +80,30 @@ from django.views import View
 from .models import MessageModel, GroupModel
 from .forms import MessageForm
 from django.shortcuts import get_object_or_404
+
+
 class MessageView(View):
     form_class = MessageForm
-    
+
     # def dispatch ...
-    
+
     # def get...
-    
+
     def post(self, request, group_name):
         form = self.form_class(request.POST)
         if form.is_valid():
-            chat = MessageModel.objects.create(user=request.user, group=get_object_or_404(GroupModel, name=group_name), message=form.cleaned_data['message'])
-            return render(request, 'message/snippet/chat-message.html', {'chat': chat})
+            chat = MessageModel.objects.create(user=request.user, group=get_object_or_404(GroupModel, name=group_name),
+                                               message=form.cleaned_data['message'])
+            return render(request, 'message/htmx/chat-message.html', {'chat': chat})
+```
+
+# hyperscript
+<h5>to reset form after htmx-request</h5>
+<ul>
+    <li>at the first get script-cdn from their website</li>
+    <li>add this to previous form tag</li>
+</ul>
+
+```html
+    <form ... _="on htmx:afterRequest reset() me">...</form>
 ```
